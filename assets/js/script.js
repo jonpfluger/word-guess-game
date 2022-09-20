@@ -1,14 +1,27 @@
 var startBtn = document.querySelector('.start-button');
 var wordBlanksEl = document.querySelector('.word-blanks');
 var scoreEl = document.querySelector('.score');
+var timerEl = document.querySelector('.timer-count')
 
 var validChars = "abcdefghijklmnopqrstuvwxyz";
 var words = ["javascript", "variable", "function", "object", "modulus", "localstorage", "timeout", "interval"];
 var word;
 var guessedCharacters = [];
 var score = 0;
+var timeLeft = 15;
+var intervalId;
 
-// timeLeft variable
+function startCountdown() {
+    clearInterval(intervalId);
+    intervalId = setInterval(function() {
+        timeLeft--;
+        timerEl.textContent = timeLeft;
+        if (timeLeft === 0) {
+            clearInterval(intervalId);
+            wordBlanksEl.innerText = "Game over! Your score is " + score;
+        }
+    }, 1000);
+}
 
 function checkWord() {
     var wordFromDOM = wordBlanksEl.textContent.split(' ').join('');
@@ -49,6 +62,7 @@ function startRound() {
     var randomIndex = Math.floor(Math.random() * words.length);
     word = words[randomIndex];
     renderCharacters();
+    startCountdown();
 }
 
 
