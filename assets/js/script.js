@@ -1,19 +1,32 @@
 var startBtn = document.querySelector('.start-button');
 var wordBlanksEl = document.querySelector('.word-blanks');
+
+var validChars = "abcdefghijklmnopqrstuvwxyz"
 var words = ["javascript", "variable", "function", "object", "modulus", "localstorage", "timeout", "interval"];
 var word;
+var guessedCharacters = [];
+
 // score variable
 // timeLeft variable
+
+function handleKeydown(event) {
+    if (validChars.includes(event.key)) {
+        // keep track of the character that was guessed
+        guessedCharacters.push(event.key);
+        // re-render wordBlanks.textContent
+        renderCharacters();
+    }
+}
 
 function renderCharacters() {
     var str = "";
     for (var i = 0; i < word.length; i++) {
-        // if we have guessed the character
-            // add the character into str
-        // else
-            // add an _ into str
+        var letter = word[i];
+        if (guessedCharacters.includes(letter)) {
+            str += letter + " ";
+        } else {
             str += '_ ';
-            console.log(str)
+        };
     }
     wordBlanksEl.textContent = str.trim();
 }
@@ -27,3 +40,4 @@ function startRound() {
 
 startBtn.addEventListener("click", startRound)
 
+document.addEventListener("keydown", handleKeydown)
