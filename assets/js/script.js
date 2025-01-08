@@ -1,4 +1,5 @@
 var startBtn = document.querySelector('.start-button');
+var resetBtn = document.querySelector('.reset-button');
 var wordBlanksEl = document.querySelector('.word-blanks');
 var scoreEl = document.querySelector('.score');
 var timerEl = document.querySelector('.timer-count')
@@ -19,6 +20,7 @@ function startCountdown() {
         if (timeLeft === 0) {
             clearInterval(intervalId);
             wordBlanksEl.innerText = "Game over! Your score is " + score;
+            resetScore();
         }
     }, 1000);
 }
@@ -65,7 +67,18 @@ function startRound() {
     startCountdown();
 }
 
+function resetScore() {
+    score = 0;
+    timeLeft = 15;
+
+    clearInterval(intervalId);
+
+    scoreEl.textContent = score;
+    timerEl.textContent = timeLeft;
+}
+
 
 startBtn.addEventListener("click", startRound)
+resetBtn.addEventListener("click", resetScore)
 
 document.addEventListener("keydown", handleKeydown)
